@@ -1,6 +1,4 @@
 
-
-
 map = [[9,9,9,9,9],
        [9,1,1,0,9], # zero representing no obstacle and one representing an obstacle and 9 representing the edge of the obstacle course
        [9,1,0,0,9],
@@ -20,19 +18,14 @@ def possibile_locations(Left, Front, Right):
             if map[x][y] == 0:
                 if map[x][y-1] == Left or map[x][y-1] == 9 and map[x-1][y] == Front or map[x-1][y] == 9 and map[x][y+1] == Right or map[x][y+1] == 9:
                     locations.append(str(x)+str(y))
-                    break
-                if map[x-1][y] == Left or map[x-1][y] == 9 and map[x][y+1] == Front or map[x][y+1] == 9 and map[x+1][y] == Right or map[x+1][y] == 9:
+                elif map[x-1][y] == Left or map[x-1][y] == 9 and map[x][y+1] == Front or map[x][y+1] == 9 and map[x+1][y] == Right or map[x+1][y] == 9:
                     locations.append(str(x)+str(y))
-                    break
-                if map[x][y+1] == Left or map[x][y+1] == 9 and map[x+1][y] == Front or map[x+1][y] == 9 and map[x][y-1] == Right or map[x][y-1] == 9:
+                elif map[x][y+1] == Left or map[x][y+1] == 9 and map[x+1][y] == Front or map[x+1][y] == 9 and map[x][y-1] == Right or map[x][y-1] == 9:
                     locations.append(str(x)+str(y))
-                    break
-                if map[x+1][y] == Left or map[x+1][y] == 9 and map[x][y-1] == Front or map[x][y-1] == 9 and map[x-1][y] == Right or map[x-1][y] == 9:
+                elif map[x+1][y] == Left or map[x+1][y] == 9 and map[x][y-1] == Front or map[x][y-1] == 9 and map[x-1][y] == Right or map[x-1][y] == 9:
                     locations.append(str(x)+str(y))
-
 
     return locations
-
 
     #input the result from the 3 ultrasonic sensors
     #process: //This is the hard part
