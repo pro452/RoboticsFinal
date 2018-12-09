@@ -16,14 +16,19 @@ def possibile_locations(Left, Front, Right):
         for y in range(1,4):
             print(map[x][y])
             if map[x][y] == 0:
-                if map[x][y-1] == Left or map[x][y-1] == 9 and map[x-1][y] == Front or map[x-1][y] == 9 and map[x][y+1] == Right or map[x][y+1] == 9:
+                if (map[x][y-1] == Left or map[x][y-1] == 9) and (map[x-1][y] == Front or map[x-1][y] == 9) and (map[x][y+1] == Right or map[x][y+1] == 9):
                     locations.append(str(x)+str(y))
-                elif map[x-1][y] == Left or map[x-1][y] == 9 and map[x][y+1] == Front or map[x][y+1] == 9 and map[x+1][y] == Right or map[x+1][y] == 9:
+                    print(str(map[x][y]) + "1")
+                elif (map[x-1][y] == Left or map[x-1][y] == 9) and (map[x][y+1] == Front or map[x][y+1] == 9) and (map[x+1][y] == Right or map[x+1][y] == 9):
                     locations.append(str(x)+str(y))
-                elif map[x][y+1] == Left or map[x][y+1] == 9 and map[x+1][y] == Front or map[x+1][y] == 9 and map[x][y-1] == Right or map[x][y-1] == 9:
+                    print(str(map[x][y]) + "2")
+                elif (map[x][y+1] == Left or map[x][y+1] == 9) and (map[x+1][y] == Front or map[x+1][y] == 9) and (map[x][y-1] == Right or map[x][y-1] == 9):
                     locations.append(str(x)+str(y))
-                elif map[x+1][y] == Left or map[x+1][y] == 9 and map[x][y-1] == Front or map[x][y-1] == 9 and map[x-1][y] == Right or map[x-1][y] == 9:
+                    print(str(map[x][y]) + "3")
+                elif (map[x+1][y] == Left or map[x+1][y] == 9) and (map[x][y-1] == Front or map[x][y-1] == 9) and (map[x-1][y] == Right or map[x-1][y] == 9):
                     locations.append(str(x)+str(y))
+                    print(str(map[x][y]) + "4")
+
 
     return locations
 
@@ -43,6 +48,6 @@ def path_finder():
     #process: using highest probability from the probliity array what is the shortest path to the goal
     #output: Where should robot go next
 
-print(possibile_locations(0,1,0))
+print(possibile_locations(1,1,1))
 
 
