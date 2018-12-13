@@ -1,4 +1,3 @@
-
 map = [[9,9,9,9,9],
        [9,1,1,0,9], # zero representing no obstacle and one representing an obstacle and 9 representing the edge of the obstacle course
        [9,1,0,0,9],
@@ -7,8 +6,8 @@ map = [[9,9,9,9,9],
 
 probaility = []
 
-for i in range(len(map)): #Initilize
-    probaility.append(1.0/9)
+for i in range(5): #Initilize
+    probaility.append(1.0/5)
 
 def possibile_locations(Left, Front, Right):
     locations = []
@@ -29,15 +28,19 @@ def possibile_locations(Left, Front, Right):
                     locations.append(str(x)+str(y)+'w')
                     print(str(map[x][y]) + "4")
 
-
     return locations
 
     #input the result from the 3 ultrasonic sensors
     #process: //This is the hard part
     #output possible locations of the robot based upon, the 3 ultrasonic senors
 
-def update_stat():
+def update_stat(locations):
     print('holder text')
+
+    for index in range(len(locations)):
+        if locations[index][0] == '1' and locations[index][1] == '3':
+            print()
+
     #input: the output of possible_locations
     #process: using Probabilistic locationlization, update where the robot could be
     #output an updated probablity array
@@ -48,9 +51,7 @@ def path_finder():
     #process: using highest probability from the probliity array what is the shortest path to the goal
     #output: Where should robot go next
 
+locations = possibile_locations(1,0,0)
+print(locations)
 
-
-
-print(possibile_locations(1,1,1))
-
-
+update_stat(locations)
