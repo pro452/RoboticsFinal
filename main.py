@@ -10,37 +10,59 @@ for i in range(5): #Initilize
     probaility.append(1.0/5)
 
 def possibile_locations(Left, Front, Right):
-    locations = []
+    probs = []
     for x in range(1,4):
         for y in range(1,4):
             print(map[x][y])
             if map[x][y] == 0:
                 if (map[x][y-1] == Left or map[x][y-1] == 9) and (map[x-1][y] == Front or map[x-1][y] == 9) and (map[x][y+1] == Right or map[x][y+1] == 9):
-                    locations.append(str(x)+str(y)+'n')
+                    probs.append(str(x)+str(y)+'n')
                     print(str(map[x][y]) + "1")
                 elif (map[x-1][y] == Left or map[x-1][y] == 9) and (map[x][y+1] == Front or map[x][y+1] == 9) and (map[x+1][y] == Right or map[x+1][y] == 9):
-                    locations.append(str(x)+str(y)+'e')
+                    probs.append(str(x)+str(y)+'e')
                     print(str(map[x][y]) + "2")
                 elif (map[x][y+1] == Left or map[x][y+1] == 9) and (map[x+1][y] == Front or map[x+1][y] == 9) and (map[x][y-1] == Right or map[x][y-1] == 9):
-                    locations.append(str(x)+str(y)+'s')
+                    probs.append(str(x)+str(y)+'s')
                     print(str(map[x][y]) + "3")
                 elif (map[x+1][y] == Left or map[x+1][y] == 9) and (map[x][y-1] == Front or map[x][y-1] == 9) and (map[x-1][y] == Right or map[x-1][y] == 9):
-                    locations.append(str(x)+str(y)+'w')
+                    probs.append(str(x)+str(y)+'w')
                     print(str(map[x][y]) + "4")
-
-    return locations
+    return probs
 
     #input the result from the 3 ultrasonic sensors
     #process: //This is the hard part
     #output possible locations of the robot based upon, the 3 ultrasonic senors
 
 def update_stat(locations):
-    print('holder text')
+    locations_to_add_more_probability = []
 
     for index in range(len(locations)):
         if locations[index][0] == '1' and locations[index][1] == '3':
-            print()
+            locations_to_add_more_probability.append(0)
+        if locations[index][0] == '2' and locations[index][1] == '2':
+            locations_to_add_more_probability.append(1)
+        if locations[index][0] == '2' and locations[index][1] == '3':
+            locations_to_add_more_probability.append(2)
+        if locations[index][0] == '3' and locations[index][1] == '1':
+            locations_to_add_more_probability.append(3)
+        if locations[index][0] == '3' and locations[index][1] == '2':
+            locations_to_add_more_probability.append(4)
 
+    for i in range(len(locations_to_add_more_probability)):  # Initilize
+        probaility[locations_to_add_more_probability[i]] += 1.0/len(locations_to_add_more_probability)
+
+    print(probaility)
+    sum = 0
+
+    for index in range(len(probaility)):
+        sum += probaility[index]
+
+    for index in range(len(probaility)):
+        probaility[index] = probaility[index]/sum
+
+    print(probaility)
+
+    return locations_to_add_more_probability
     #input: the output of possible_locations
     #process: using Probabilistic locationlization, update where the robot could be
     #output an updated probablity array
@@ -51,7 +73,7 @@ def path_finder():
     #process: using highest probability from the probliity array what is the shortest path to the goal
     #output: Where should robot go next
 
-locations = possibile_locations(1,0,0)
+locations = possibile_locations(1,1,1)
 print(locations)
 
-update_stat(locations)
+print(update_stat(locations))
