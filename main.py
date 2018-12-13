@@ -6,6 +6,8 @@ map = [[9,9,9,9,9],
 
 probaility = []
 
+orientation = 'east'
+
 for i in range(5): #Initilize
     probaility.append(1.0/5)
 
@@ -15,18 +17,22 @@ def possibile_locations(Left, Front, Right):
         for y in range(1,4):
             print(map[x][y])
             if map[x][y] == 0:
-                if (map[x][y-1] == Left or map[x][y-1] == 9) and (map[x-1][y] == Front or map[x-1][y] == 9) and (map[x][y+1] == Right or map[x][y+1] == 9):
-                    probs.append(str(x)+str(y)+'n')
-                    print(str(map[x][y]) + "1")
-                elif (map[x-1][y] == Left or map[x-1][y] == 9) and (map[x][y+1] == Front or map[x][y+1] == 9) and (map[x+1][y] == Right or map[x+1][y] == 9):
-                    probs.append(str(x)+str(y)+'e')
-                    print(str(map[x][y]) + "2")
-                elif (map[x][y+1] == Left or map[x][y+1] == 9) and (map[x+1][y] == Front or map[x+1][y] == 9) and (map[x][y-1] == Right or map[x][y-1] == 9):
-                    probs.append(str(x)+str(y)+'s')
-                    print(str(map[x][y]) + "3")
-                elif (map[x+1][y] == Left or map[x+1][y] == 9) and (map[x][y-1] == Front or map[x][y-1] == 9) and (map[x-1][y] == Right or map[x-1][y] == 9):
-                    probs.append(str(x)+str(y)+'w')
-                    print(str(map[x][y]) + "4")
+                if orientation == 'north':
+                    if (map[x][y-1] == Left or map[x][y-1] == 9) and (map[x-1][y] == Front or map[x-1][y] == 9) and (map[x][y+1] == Right or map[x][y+1] == 9):
+                        probs.append(str(x)+str(y)+'n')
+                        print(str(map[x][y]) + "1")
+                if orientation == 'east':
+                    if (map[x-1][y] == Left or map[x-1][y] == 9) and (map[x][y+1] == Front or map[x][y+1] == 9) and (map[x+1][y] == Right or map[x+1][y] == 9):
+                        probs.append(str(x)+str(y)+'e')
+                        print(str(map[x][y]) + "2")
+                if orientation == 'south':
+                    if (map[x][y+1] == Left or map[x][y+1] == 9) and (map[x+1][y] == Front or map[x+1][y] == 9) and (map[x][y-1] == Right or map[x][y-1] == 9):
+                        probs.append(str(x)+str(y)+'s')
+                        print(str(map[x][y]) + "3")
+                if orientation == 'west':
+                    if (map[x+1][y] == Left or map[x+1][y] == 9) and (map[x][y-1] == Front or map[x][y-1] == 9) and (map[x-1][y] == Right or map[x-1][y] == 9):
+                        probs.append(str(x)+str(y)+'w')
+                        print(str(map[x][y]) + "4")
     return probs
 
     #input the result from the 3 ultrasonic sensors
@@ -51,7 +57,6 @@ def update_stat(locations):
     for i in range(len(locations_to_add_more_probability)):  # Initilize
         probaility[locations_to_add_more_probability[i]] += 1.0/len(locations_to_add_more_probability)
 
-    print(probaility)
     sum = 0
 
     for index in range(len(probaility)):
@@ -73,7 +78,12 @@ def path_finder():
     #process: using highest probability from the probliity array what is the shortest path to the goal
     #output: Where should robot go next
 
-locations = possibile_locations(1,1,1)
-print(locations)
+while 1 == 1:
+    orientation = input("Orientation: ")
+    east = input("East: ")
+    north = input("North: ")
+    west = input("West: ")
 
-print(update_stat(locations))
+    locations = possibile_locations(1,1,0)
+    print(locations)
+    print(update_stat(locations))
