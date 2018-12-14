@@ -1,4 +1,4 @@
-map = [[9,9,9,9,9],
+map = [[9,9,5,9,9],
        [9,1,0,0,9], # zero representing no obstacle and one representing an obstacle and 9 representing the edge of the obstacle course
        [9,0,1,0,9],
        [9,0,0,0,9],
@@ -71,15 +71,33 @@ def update_stat(locations):
     for index in range(len(probaility)):
         probaility[index] = probaility[index]/sum
 
-    print(probaility)
+    print(probaility.index(max(probaility)))
 
     return locations_to_add_more_probability
     #input: the output of possible_locations
     #process: using Probabilistic locationlization, update where the robot could be
     #output an updated probablity array
 
-def path_finder():
+def path_finder(start_location):
     print('holder text')
+
+    counter = 0
+    path_map = [-1,-1,-1,
+                -1,-1,-1,
+                -1,-1,-1]
+
+    path_map[start_location] = counter
+
+    path_list = [[2,3,4]]
+
+    #while 1==1:
+
+        #if map[x-1][y] == 0:
+
+        #counter += 1
+
+
+
     #input: proablitity array
     #process: using highest probability from the probliity array what is the shortest path to the goal
     #output: Where should robot go next
