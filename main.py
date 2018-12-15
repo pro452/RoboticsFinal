@@ -94,6 +94,8 @@ def path_finder(start_location):
 
     goalFound = False
 
+    #This while loops builds the list of possible paths
+    #The last character of each item in the list is the distance of steps it is located away from the start_location
     while(not goalFound):
         for index in range(len(list_of_nodes)):
             if int(list_of_nodes[index][2]) == counter:
@@ -123,17 +125,59 @@ def path_finder(start_location):
 
         counter += 1
 
+    #This loop finds where the goal is
+    max = 0
+    indexOfmaxvalue = -1
+    for index in range(len(list_of_nodes)):
+        if int(list_of_nodes[index][2]) > int(max):
+            indexOfmaxvalue = index
+            max = list_of_nodes[index][2]
+
+    pathNeededToTravel = []
+    pathNeededToTravel.append(list_of_nodes[indexOfmaxvalue])
 
     print(list_of_nodes)
+    # print(list_of_nodes[indexOfmaxvalue][1])
+    # print(int(list_of_nodes[0][1]) - 1)
+    # print(list_of_nodes[indexOfmaxvalue][2])
+    # print(int(list_of_nodes[0][2]) + 1)
 
+    #This loop creates the path needed for the robot
+    while counter > 0:
+        for index in range(len(list_of_nodes)):
 
-    path_list = [[2,3,4]]
+            maxValueX = int(list_of_nodes[indexOfmaxvalue][0])
+            indexX = int(list_of_nodes[index][0])
+            maxValueY = int(list_of_nodes[indexOfmaxvalue][1])
+            indexY = int(list_of_nodes[index][1])
+            maxValueCounter = int(list_of_nodes[indexOfmaxvalue][2])
+            indexCounter = int(list_of_nodes[index][2]) + 1
 
-    #while 1==1:
+            if maxValueX == indexX and maxValueY == indexY - 1 and maxValueCounter == indexCounter:
+                pathNeededToTravel.append(list_of_nodes[index])
+                indexOfmaxvalue = index
+                counter = counter - 1
+                break
+            if maxValueX == indexX and maxValueY == indexY + 1 and maxValueCounter == indexCounter:
+                pathNeededToTravel.append(list_of_nodes[index])
+                indexOfmaxvalue = index
+                counter = counter - 1
+                break
+            if maxValueX == indexX + 1 and maxValueY == indexY and maxValueCounter == indexCounter:
+                pathNeededToTravel.append(list_of_nodes[index])
+                indexOfmaxvalue = index
+                counter = counter - 1
+                break
+            if maxValueX == indexX - 1 and maxValueY == indexY and maxValueCounter == indexCounter:
+                pathNeededToTravel.append(list_of_nodes[index])
+                indexOfmaxvalue = index
+                counter = counter - 1
+                break
 
-        #if map[x-1][y] == 0:
+    print(pathNeededToTravel)
 
-        #counter += 1
+    #This will figure out what to tell the robot to do next
+
 
     #input: proablitity array
     #process: using highest probability from the probliity array what is the shortest path to the goal
