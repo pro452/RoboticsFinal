@@ -71,8 +71,8 @@ def update_stat(locations):
     for index in range(len(probaility)):
         probaility[index] = probaility[index]/sum
 
-    print(probaility.index(max(probaility)))
-
+    #print(probaility.index(max(probaility)))
+    print(probaility)
     return locations_to_add_more_probability
     #input: the output of possible_locations
     #process: using Probabilistic locationlization, update where the robot could be
@@ -80,7 +80,7 @@ def update_stat(locations):
 
 def path_finder(start_location):
 
-    start_location = "320"
+    #start_location = "320"
     counter = 0
     secondmap =[[9,9,9,9,9],
                [9,-1,5,0,9],
@@ -177,7 +177,17 @@ def path_finder(start_location):
     print(pathNeededToTravel)
 
     #This will figure out what to tell the robot to do next
+    xtravel = int(pathNeededToTravel[len(pathNeededToTravel) - 2][0]) - int(pathNeededToTravel[len(pathNeededToTravel) - 1][0])
+    ytravel = int(pathNeededToTravel[len(pathNeededToTravel) - 2][1]) - int(pathNeededToTravel[len(pathNeededToTravel) - 1][1])
 
+    if ytravel == 1:
+        print("EAST")
+    if ytravel == -1:
+        print("WEST")
+    if xtravel == 1:
+        print("SOUTH")
+    if xtravel == -1:
+        print("NORTH")
 
     #input: proablitity array
     #process: using highest probability from the probliity array what is the shortest path to the goal
@@ -190,6 +200,8 @@ while 1 == 1:
     west = input("West: ")
 
     locations = possibile_locations(int(east),int(north),int(west))
-    #print(locations)
-    #print(update_stat(locations))
-    path_finder(1234)
+    print(locations)
+    print(update_stat(locations))
+
+    start_location = input("Highest prob. location: ")
+    path_finder(start_location)
