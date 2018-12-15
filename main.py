@@ -79,14 +79,53 @@ def update_stat(locations):
     #output an updated probablity array
 
 def path_finder(start_location):
-    print('holder text')
 
+    start_location = "320"
     counter = 0
-    path_map = [-1,-1,-1,
-                -1,-1,-1,
-                -1,-1,-1]
+    secondmap =[[9,9,9,9,9],
+               [9,-1,5,0,9],
+               [9,0,-1,0,9],
+               [9,0,-1,0,9],
+               [9,9,9,9,9]]
 
-    path_map[start_location] = counter
+    #path_map[start_location] = counter
+    list_of_nodes = []
+    list_of_nodes.append(start_location)
+
+    goalFound = False
+
+    while(not goalFound):
+        for index in range(len(list_of_nodes)):
+            if int(list_of_nodes[index][2]) == counter:
+                x = int(list_of_nodes[index][0])
+                y = int(list_of_nodes[index][1])
+
+                if secondmap[x][y-1] == 0 or secondmap[x][y-1] == 5:
+                    list_of_nodes.append(str(x) + str(y-1) + str(counter + 1))
+                    if secondmap[x][y-1] == 5:
+                        goalFound = True
+                    secondmap[x][y - 1] = -1
+                if secondmap[x][y+1] == 0 or secondmap[x][y+1] == 5:
+                    list_of_nodes.append(str(x) + str(y+1) + str(counter + 1))
+                    if secondmap[x][y+1] == 5:
+                        goalFound = True
+                    secondmap[x][y + 1] = -1
+                if secondmap[x-1][y] == 0 or secondmap[x-1][y] == 5:
+                    list_of_nodes.append(str(x-1) + str(y) + str(counter + 1))
+                    if secondmap[x-1][y] == 5:
+                        goalFound = True
+                    secondmap[x - 1][y] = -1
+                if secondmap[x+1][y] == 0 or secondmap[x+1][y] == 5:
+                    list_of_nodes.append(str(x+1) + str(y) + str(counter + 1))
+                    if secondmap[x+1][y] == 5:
+                        goalFound = True
+                    secondmap[x + 1][y] = -1
+
+        counter += 1
+
+
+    print(list_of_nodes)
+
 
     path_list = [[2,3,4]]
 
@@ -95,8 +134,6 @@ def path_finder(start_location):
         #if map[x-1][y] == 0:
 
         #counter += 1
-
-
 
     #input: proablitity array
     #process: using highest probability from the probliity array what is the shortest path to the goal
@@ -109,5 +146,6 @@ while 1 == 1:
     west = input("West: ")
 
     locations = possibile_locations(int(east),int(north),int(west))
-    print(locations)
-    print(update_stat(locations))
+    #print(locations)
+    #print(update_stat(locations))
+    path_finder(1234)
