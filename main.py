@@ -1,39 +1,36 @@
-map = [[9,9,5,9,9],
-       [9,1,0,0,9], # zero representing no obstacle and one representing an obstacle and 9 representing the edge of the obstacle course
-       [9,0,1,0,9],
-       [9,0,0,0,9],
-       [9,9,9,9,9]]
+map = [[9,9,9,9,9,9,9,9],
+       [9,1,0,1,0,1,1,9], # zero representing no obstacle and one representing an obstacle and 9 representing the edge of the obstacle course
+       [9,1,0,0,0,1,1,9],
+       [9,1,1,0,1,1,1,9],
+       [9,1,1,0,0,1,1,9],
+       [9,9,9,9,9,9,9,9]]
 
 probaility = []
 
 orientation = 'east'
 
-for i in range(7): #Initilize
-    probaility.append(1.0/7)
+for i in range(8): #Initilize
+    probaility.append(1.0/8)
 
 def possibile_locations(Left, Front, Right):
     probs = []
-    for x in range(1,4):
-        for y in range(1,4):
+    for x in range(1,5):
+        for y in range(1,7):
             #print(map[x][y])
             #print(orientation)
             if map[x][y] == 0:
                 if orientation == 'north':
                     if (map[x][y-1] == Left or (map[x][y-1] == 9 and Left != 0)) and (map[x-1][y] == Front or (map[x-1][y] == 9 and Front != 0)) and (map[x][y+1] == Right or (map[x][y+1] == 9 and Right != 0)):
                         probs.append(str(x)+str(y)+'n')
-                        print('wowza/')
                 if orientation == 'east':
                     if (map[x-1][y] == Left or (map[x-1][y] == 9 and Left != 0)) and (map[x][y+1] == Front or (map[x][y+1] == 9 and Front != 0)) and (map[x+1][y] == Right or (map[x+1][y] == 9 and Right != 0)):
                         probs.append(str(x)+str(y)+'e')
-                        print(str(map[x][y]) + "2")
                 if orientation == 'south':
                     if (map[x][y+1] == Left or (map[x][y+1] == 9 and Left != 0)) and (map[x+1][y] == Front or (map[x+1][y] == 9 and Front != 0)) and (map[x][y-1] == Right or (map[x][y-1] == 9 and Right != 0)):
                         probs.append(str(x)+str(y)+'s')
-                        print(str(map[x][y]) + "3")
                 if orientation == 'west':
                     if (map[x+1][y] == Left or (map[x+1][y] == 9 and Left != 0)) and (map[x][y-1] == Front or (map[x][y-1] == 9 and Front != 0)) and (map[x-1][y] == Right or (map[x-1][y] == 9 and Right != 0)):
                         probs.append(str(x)+str(y)+'w')
-                        print(str(map[x][y]) + "4")
     return probs
 
     #input the result from the 3 ultrasonic sensors
@@ -46,18 +43,20 @@ def update_stat(locations):
     for index in range(len(locations)):
         if locations[index][0] == '1' and locations[index][1] == '2':
             locations_to_add_more_probability.append(0)
-        if locations[index][0] == '1' and locations[index][1] == '3':
+        if locations[index][0] == '1' and locations[index][1] == '4':
             locations_to_add_more_probability.append(1)
-        if locations[index][0] == '2' and locations[index][1] == '1':
+        if locations[index][0] == '2' and locations[index][1] == '2':
             locations_to_add_more_probability.append(2)
         if locations[index][0] == '2' and locations[index][1] == '3':
             locations_to_add_more_probability.append(3)
-        if locations[index][0] == '3' and locations[index][1] == '1':
+        if locations[index][0] == '2' and locations[index][1] == '4':
             locations_to_add_more_probability.append(4)
-        if locations[index][0] == '3' and locations[index][1] == '2':
-            locations_to_add_more_probability.append(5)
         if locations[index][0] == '3' and locations[index][1] == '3':
+            locations_to_add_more_probability.append(5)
+        if locations[index][0] == '4' and locations[index][1] == '3':
             locations_to_add_more_probability.append(6)
+        if locations[index][0] == '4' and locations[index][1] == '4':
+            locations_to_add_more_probability.append(7)
 
 
     for i in range(len(locations_to_add_more_probability)):  # Initilize
@@ -82,11 +81,12 @@ def path_finder(start_location):
 
     #start_location = "320"
     counter = 0
-    secondmap =[[9,9,9,9,9],
-               [9,-1,5,0,9],
-               [9,0,-1,0,9],
-               [9,0,-1,0,9],
-               [9,9,9,9,9]]
+    secondmap=[[9,9,9,9,9,9,9,9],
+               [9,-1, 0,-1, 5,-1,-1,9],
+               [9,-1, 0, 0, 0,-1,-1,9],
+               [9,-1,-1, 0,-1,-1,-1,9],
+               [9,-1,-1, 0, 0,-1,-1,9],
+               [9,9,9,9,9,9,9,9]]
 
     #path_map[start_location] = counter
     list_of_nodes = []
@@ -106,37 +106,48 @@ def path_finder(start_location):
                     list_of_nodes.append(str(x) + str(y-1) + str(counter + 1))
                     if secondmap[x][y-1] == 5:
                         goalFound = True
+                        print(str(x) + ' ' + str(y) + str(counter))
                     secondmap[x][y - 1] = -1
                 if secondmap[x][y+1] == 0 or secondmap[x][y+1] == 5:
                     list_of_nodes.append(str(x) + str(y+1) + str(counter + 1))
                     if secondmap[x][y+1] == 5:
                         goalFound = True
+                        print(str(x) + ' ' + str(y))
                     secondmap[x][y + 1] = -1
                 if secondmap[x-1][y] == 0 or secondmap[x-1][y] == 5:
                     list_of_nodes.append(str(x-1) + str(y) + str(counter + 1))
                     if secondmap[x-1][y] == 5:
                         goalFound = True
+                        print(str(x) + ' ' + str(y))
                     secondmap[x - 1][y] = -1
                 if secondmap[x+1][y] == 0 or secondmap[x+1][y] == 5:
                     list_of_nodes.append(str(x+1) + str(y) + str(counter + 1))
                     if secondmap[x+1][y] == 5:
                         goalFound = True
+                        print(str(x) + ' ' + str(y))
                     secondmap[x + 1][y] = -1
 
         counter += 1
 
+    print(list_of_nodes)
+    print(str(counter))
     #This loop finds where the goal is
-    max = 0
+    # max = 0
     indexOfmaxvalue = -1
-    for index in range(len(list_of_nodes)):
-        if int(list_of_nodes[index][2]) > int(max):
-            indexOfmaxvalue = index
-            max = list_of_nodes[index][2]
+    # for index in range(len(list_of_nodes)):
+    #     if int(list_of_nodes[index][2]) > int(max):
+    #         indexOfmaxvalue = index
+    #         max = list_of_nodes[index][2]
 
     pathNeededToTravel = []
-    pathNeededToTravel.append(list_of_nodes[indexOfmaxvalue])
+    #pathNeededToTravel.append(list_of_nodes[indexOfmaxvalue])
+    pathNeededToTravel.append("14" + str(counter))
+    for index in range(len(list_of_nodes)):
+        if int(list_of_nodes[index][0]) == 1 and int(list_of_nodes[index][1]) == 4:
+           indexOfmaxvalue = index
+           print("max value " + str(list_of_nodes[indexOfmaxvalue]))
 
-    print(list_of_nodes)
+    #print(list_of_nodes) # This may be the one
     # print(list_of_nodes[indexOfmaxvalue][1])
     # print(int(list_of_nodes[0][1]) - 1)
     # print(list_of_nodes[indexOfmaxvalue][2])
@@ -145,7 +156,6 @@ def path_finder(start_location):
     #This loop creates the path needed for the robot
     while counter > 0:
         for index in range(len(list_of_nodes)):
-
             maxValueX = int(list_of_nodes[indexOfmaxvalue][0])
             indexX = int(list_of_nodes[index][0])
             maxValueY = int(list_of_nodes[indexOfmaxvalue][1])
@@ -157,21 +167,32 @@ def path_finder(start_location):
                 pathNeededToTravel.append(list_of_nodes[index])
                 indexOfmaxvalue = index
                 counter = counter - 1
+                print(str(indexX) + str(indexY) + '1')
+                print(str(maxValueX) + str(maxValueY) + '1max')
+
                 break
             if maxValueX == indexX and maxValueY == indexY + 1 and maxValueCounter == indexCounter:
                 pathNeededToTravel.append(list_of_nodes[index])
                 indexOfmaxvalue = index
                 counter = counter - 1
+                print(str(indexX) + str(indexY) +'2')
+                print(str(maxValueX) + str(maxValueY) + '2max')
+
                 break
             if maxValueX == indexX + 1 and maxValueY == indexY and maxValueCounter == indexCounter:
                 pathNeededToTravel.append(list_of_nodes[index])
                 indexOfmaxvalue = index
                 counter = counter - 1
+                print(str(indexX) + str(indexY)+'3')
+                print(str(maxValueX) + str(maxValueY) + '3max')
+
                 break
             if maxValueX == indexX - 1 and maxValueY == indexY and maxValueCounter == indexCounter:
                 pathNeededToTravel.append(list_of_nodes[index])
                 indexOfmaxvalue = index
                 counter = counter - 1
+                print(str(indexX) + str(indexY)+'4')
+                print(str(maxValueX) + str(maxValueY) + '4max')
                 break
 
     print(pathNeededToTravel)
@@ -201,7 +222,38 @@ while 1 == 1:
 
     locations = possibile_locations(int(east),int(north),int(west))
     print(locations)
-    print(update_stat(locations))
 
-    start_location = input("Highest prob. location: ")
-    path_finder(start_location)
+    highestProbLocation = update_stat(locations)
+    print(highestProbLocation)
+
+    def findStartlocation():
+        start_location = -1
+        if highestProbLocation[0] == 0:
+            start_location = 120
+        if highestProbLocation[0] == 1:
+            start_location = 140
+        if highestProbLocation[0] == 2:
+            start_location = 220
+        if highestProbLocation[0] == 3:
+            start_location = 230
+        if highestProbLocation[0] == 4:
+            start_location = 240
+        if highestProbLocation[0] == 5:
+            start_location = 330
+        if highestProbLocation[0] == 6:
+            start_location = 430
+        if highestProbLocation[0] == 7:
+            start_location = 440
+
+        return start_location
+
+    start_location = findStartlocation()
+    #start_location = input("Highest prob. location: ")
+    print(start_location)
+    path_finder(str(start_location))
+    remove = input("Remove? ")
+
+    if remove == 'yes':
+        highestProbLocation.pop(0)
+        start_location = findStartlocation()
+        path_finder(str(start_location))
